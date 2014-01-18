@@ -1,0 +1,25 @@
+#          -------------------------------------------------------
+#          Syslog Logging Directives for Loggly
+#          -------------------------------------------------------
+
+
+template LogglyFormat {
+    template("<${PRI}>1 ${ISODATE} ${HOST} ${PROGRAM} ${PID} ${MSGID} [<%= @customer_token -%>@41058] $MSG\n");
+};
+
+destination d_loggly {
+<% if @enable_tls -%>
+    # TLS-enabled log sink
+    tcp("logs-01.loggly.com" port(6514) tls(peer-verify(required-untrusted) ca_dir('<%= @cert_path -%>')) template(LogglyFormat) flush_timeout(1000) frac_digits(3));
+<% else -%>
+    # Non-encrypted log sink
+    tcp("logs-01.loggly.com" port(514) template(LogglyFormat) flush_timeout(1000) frac_digits(3));
+<% end -%>
+};
+
+log { source(<%= @syslog_source -%>); destination(d_loggly); };
+
+#          -------------------------------------------------------
+#          End of Syslog Logging Directives for Loggly
+#          -------------------------------------------------------
+
