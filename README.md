@@ -89,7 +89,6 @@ For Puppet Enterprise, the default directory is */etc/puppetlabs/puppet/modules*
     git clone https://github.com/loggly/loggly-puppet.git loggly
 
 You've now installed the Loggly module into your module path.
-</div>
 ----
 
 ## Finding your Customer Token
