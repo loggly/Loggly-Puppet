@@ -1,8 +1,8 @@
 # Automate your Loggly config with Puppet
 
-If you've ever had to manage servers, you're probably very familiar with an age-old problem: "How do I keep track of what's happening on all of my systems?" 
+If you've ever had to manage servers, you're probably very familiar with an age-old problem: "How do I keep track of what's happening on all of my systems?"
 
-[Loggly](http://loggly.com/) is a tool that can help you solve that very problem by bringing your logs from all of your systems into a central, easy-to-use dashboard.  
+[Loggly](http://loggly.com/) is a tool that can help you solve that very problem by bringing your logs from all of your systems into a central, easy-to-use dashboard.
 
 Unfortunately, if you've got more than a handful of servers, it quickly becomes tedious to manage their configuration by hand.  Since we're still years away from being able to delegate the setup to robot minions, the Loggly team has created a [Puppet](http://puppetlabs.com/puppet/what-is-puppet) module to get Puppet users up and running right away.
 
@@ -180,8 +180,31 @@ node 'my_server_node.example.net' {
     }
 }
 ```
-Unfortunately, the packages in the EPEL repository for syslog-ng are not compiled with TLS support by default, so TLS is 
+Unfortunately, the packages in the EPEL repository for syslog-ng are not compiled with TLS support by default, so TLS is
 disabled by default on Red Hat-style distributions.  Data sent from your systems to Loggly will not be encrypted by default.
+
+
+#### If you want to log custom logfiles
+
+```puppet
+
+node 'my_server_node.example.net' {
+    class { 'loggly::rsyslog':
+        customer_token => 'de7b5ccd-04de-4dc4-fbc9-501393600000',
+    }
+
+    loggly::rsyslog::logfile { "custom-logfile":
+        logname  => "custom-logfile",
+        filepath => "/var/log/custom-logfile.log"
+    }
+
+    loggly::rsyslog::logfile { "mysql":
+        logname  => "mysql",
+        filepath => "/var/log/mysqld.log"
+    }
+}
+```
+
 
 #### Additional information
 More information on available configuration options can be found in the source code for the Loggly Puppet module.
