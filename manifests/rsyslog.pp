@@ -78,7 +78,7 @@ class loggly::rsyslog (
 
     define logfile($logname,$filepath,$severity='info') {
         file { "/etc/rsyslog.d/$logname.conf":
-            content => template("log.conf.erb"),
+            content => template("loggly/log.conf.erb"),
             notify => Exec["restart_rsyslogd"],
         }
     }
