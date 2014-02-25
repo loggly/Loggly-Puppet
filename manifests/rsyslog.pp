@@ -76,6 +76,13 @@ class loggly::rsyslog (
         refreshonly => true,
     }
 
+    define logfile($logname,$filepath,$severity='info') {
+        file { "/etc/rsyslog.d/$logname.conf":
+            content => template("loggly/log.conf.erb"),
+            notify => Exec["restart_rsyslogd"],
+        }
+    }
+
 }
 
 # vi:syntax=puppet:filetype=puppet:ts=4:et:
