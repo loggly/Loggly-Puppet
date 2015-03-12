@@ -2,7 +2,7 @@
 
 If you've ever had to manage servers, you're probably very familiar with an age-old problem: "How do I keep track of what's happening on all of my systems?"
 
-[Loggly](http://loggly.com/) is a tool that can help you solve that very problem by bringing your logs from all of your systems into a central, easy-to-use dashboard.
+[Loggly](http://loggly.com/) is a tool that can help you solve that very problem by bringing your logs from all of your systems into a central, easy-to-use dashboard. Check out Loggly's [Puppet Logs and Deployment documentation](https://www.loggly.com/docs/puppet-deployment-and-logs/) for more.
 
 Unfortunately, if you've got more than a handful of servers, it quickly becomes tedious to manage their configuration by hand.  Since we're still years away from being able to delegate the setup to robot minions, the Loggly team has created a [Puppet](http://puppetlabs.com/puppet/what-is-puppet) module to get Puppet users up and running right away.
 
