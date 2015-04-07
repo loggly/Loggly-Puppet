@@ -61,7 +61,7 @@ class loggly::rsyslog (
 
         # Add a dependency on the rsyslog-gnutls package to the configuration
         # snippet so that it will be installed before we generate any config
-        File['/etc/rsyslog.d/22-loggly.conf'] -> Package['rsyslog-gnutls']
+        Class['loggly'] -> File['/etc/rsyslog.d/22-loggly.conf'] -> Package['rsyslog-gnutls']
     }
 
     # Call an exec to restart the syslog service instead of using a puppet
