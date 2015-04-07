@@ -50,13 +50,14 @@ class loggly::syslog_ng (
 
     # Ensure our configuration snippet directory exists before putting
     # configuration snippets there
-    file { '/etc/syslog-ng/conf.d':
-        ensure => 'directory',
-        owner  => 'root',
-        group  => 'root',
-        mode   => '0755',
+    if !defined(File['/etc/syslog-ng/conf.d']){
+      file { '/etc/syslog-ng/conf.d':
+          ensure => 'directory',
+          owner  => 'root',
+          group  => 'root',
+          mode   => '0755',
+      }
     }
-
     # Ensure we are using the correct source name on each distro
     $syslog_source = $::osfamily ? {
         'RedHat' => 's_sys',
