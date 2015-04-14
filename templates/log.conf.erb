@@ -2,11 +2,11 @@
 $ModLoad imfile
 $InputFilePollInterval 10
 
-#<%= logname %>
-$InputFileName <%= filepath %>
-$InputFileTag <%= logname %>:
-$InputFileStateFile stat-<%= logname %>-log
-$InputFileSeverity <%= severity %>
+#<%= @logname %>
+$InputFileName <%= @filepath %>
+$InputFileTag <%= @logname %>:
+$InputFileStateFile stat-<%= @logname %>-log
+$InputFileSeverity <%= @severity %>
 $InputRunFileMonitor
 
 
