@@ -31,7 +31,6 @@
 # === Authors
 #
 # Colin Moller <colin@unixarmy.com>
-# Adam Crews <adam.crews@gmail.com>
 #
 define loggly::rsyslog::logfile (
   $logname  = undef,
