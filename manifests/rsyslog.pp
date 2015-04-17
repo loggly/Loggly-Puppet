@@ -33,6 +33,7 @@
 # === Authors
 #
 # Colin Moller <colin@unixarmy.com>
+# Adam Crews <adam.crews@gmail.com>
 #
 class loggly::rsyslog (
   $customer_token,
