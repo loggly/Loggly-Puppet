@@ -33,56 +33,49 @@
 # === Authors
 #
 # Colin Moller <colin@unixarmy.com>
+# Adam Crews <adam.crews@gmail.com>
 #
 class loggly::rsyslog (
-    $customer_token
+  $customer_token,
 ) inherits loggly {
 
-    # Bring the TLS and certificate directory configuration into the current
-    # Puppet scope so that templates have access to it
-    $enable_tls = $loggly::enable_tls
-    $cert_path = $loggly::cert_path
+  # Bring the TLS and certificate directory configuration into the current
+  # Puppet scope so that templates have access to it
+  $enable_tls = $loggly::enable_tls
+  $cert_path = $loggly::cert_path
 
-    # Emit a configuration snippet that submits events to Loggly by default
-    file { '/etc/rsyslog.d/22-loggly.conf':
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0644',
-        content => template('loggly/rsyslog/22-loggly.conf.erb'),
-        notify  => Exec['restart_rsyslogd'],
+  # Emit a configuration snippet that submits events to Loggly by default
+  file { '/etc/rsyslog.d/22-loggly.conf':
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    content => template("${module_name}/rsyslog/22-loggly.conf.erb"),
+    notify  => Exec['restart_rsyslogd'],
+  }
+
+  # TLS configuration requires an extra package to be installed
+  if $enable_tls == true {
+    package { 'rsyslog-gnutls':
+      ensure => 'installed',
+      notify => Exec['restart_rsyslogd'],
     }
 
-    # TLS configuration requires an extra package to be installed
-    if $enable_tls == true {
-        package { 'rsyslog-gnutls':
-            ensure => 'installed',
-            notify => Exec['restart_rsyslogd'],
-        }
+    # Add a dependency on the rsyslog-gnutls package to the configuration
+    # snippet so that it will be installed before we generate any config
+    Class['loggly'] -> File['/etc/rsyslog.d/22-loggly.conf'] -> Package['rsyslog-gnutls']
+  }
 
-        # Add a dependency on the rsyslog-gnutls package to the configuration
-        # snippet so that it will be installed before we generate any config
-        Class['loggly'] -> File['/etc/rsyslog.d/22-loggly.conf'] -> Package['rsyslog-gnutls']
-    }
-
-    # Call an exec to restart the syslog service instead of using a puppet
-    # managed service to avoid external dependencies or conflicts with modules
-    # that may already manage the syslog daemon.
-    #
-    # Note that this will only be called on configuration changes due to the
-    # 'refreshonly' parameter.
-    exec { 'restart_rsyslogd':
-        command     => 'service rsyslog restart',
-        path        => [ '/usr/sbin', '/sbin', '/usr/bin/', '/bin', ],
-        refreshonly => true,
-    }
-
-    define logfile($logname,$filepath,$severity='info') {
-        file { "/etc/rsyslog.d/$logname.conf":
-            content => template("loggly/log.conf.erb"),
-            notify => Exec["restart_rsyslogd"],
-        }
-    }
-
+  # Call an exec to restart the syslog service instead of using a puppet
+  # managed service to avoid external dependencies or conflicts with modules
+  # that may already manage the syslog daemon.
+  #
+  # Note that this will only be called on configuration changes due to the
+  # 'refreshonly' parameter.
+  exec { 'restart_rsyslogd':
+    command     => 'service rsyslog restart',
+    path        => [ '/usr/sbin', '/sbin', '/usr/bin/', '/bin', ],
+    refreshonly => true,
+  }
 }
 
-# vi:syntax=puppet:filetype=puppet:ts=4:et:
+# vi:syntax=puppet:filetype=puppet:ts=2:sw=2:et:
