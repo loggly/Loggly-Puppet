@@ -1,0 +1,7 @@
+fixtures:
+  forge_modules:
+    stdlib: 
+      repo: 'puppetlabs/stdlib'
+      ref: '4.5.1'
+  symlinks:
+    loggly: "#{source_dir}"

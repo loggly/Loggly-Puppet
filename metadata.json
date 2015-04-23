@@ -1,8 +1,9 @@
 {
   "name": "loggly-loggly",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "author": "loggly",
   "summary": "Configures various data sources for automatic submission to Loggly",
+  "description": "Configures various data sources for automatic submission to Loggly",
   "license": "Apache-2.0",
   "source": "https://github.com/loggly/Loggly-Puppet.git",
   "project_page": "https://github.com/loggly/Loggly-Puppet",
@@ -13,18 +14,43 @@
       "version_requirement": ">= 4.0.0 < 5.0.0"
     }
   ],
+  "requirements": [
+    {
+      "name": "pe",
+      "version_requirement": "3.x"
+    },
+    {
+      "name": "puppet",
+      "version_requirement": ">=3.0.0 <4.0.0"
+    }
+  ],
   "operatingsystem_support": [
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
         "12.04",
-        "13.10"
+        "14.04"
+      ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "6",
+        "7"
       ]
     },
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "6"
+        "6",
+        "7"
       ]
     },
     {

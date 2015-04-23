@@ -13,11 +13,13 @@
 #
 # [*base_dir*]
 #   Base directory to store Loggly support files in.
+#
 # [*enable_tls*]
 #   Enables or disables TLS encryption for shipped log events.
+#
 # [*cert_path*]
-#   Directory to store the Loggly TLS certs in.  Normally this would be relative
-#   to $base_dir.
+#   Directory to store the Loggly TLS certs in.  Normally this would be 
+#   relative to $base_dir.
 #
 # === Authors
 #
@@ -25,37 +27,43 @@
 #
 
 class loggly (
-    $base_dir   = $loggly::params::base_dir,
-    $enable_tls = $loggly::params::enable_tls,
-    $cert_path  = $loggly::params::cert_path
+  $base_dir   = $loggly::params::base_dir,
+  $enable_tls = $loggly::params::enable_tls,
+  $cert_path  = undef,
 ) inherits loggly::params {
 
-    # create directory for loggly support files
-    file { $base_dir:
-        ensure => 'directory',
-        owner  => 'root',
-        group  => 'root',
-        mode   => '0755',
-    }
+  $_cert_path = pick($cert_path, "${base_dir}/certs")
 
-    # create directory for TLS certificates
-    file { $cert_path:
-        ensure  => 'directory',
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0755',
-        require => File[$base_dir],
-    }
+  validate_absolute_path($base_dir)
+  validate_absolute_path($_cert_path)
+  validate_bool($enable_tls)
 
-    # store the Loggly TLS cert inside $cert_path
-    file { "${cert_path}/loggly_full.crt":
-        ensure  => 'file',
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0644',
-        content => template('loggly/loggly_full.crt.erb'),
-        require => File[$cert_path],
-    }
+  # create directory for loggly support files
+  file { $base_dir:
+    ensure => 'directory',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+  }
+
+  # create directory for TLS certificates
+  file { $_cert_path:
+    ensure  => 'directory',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    require => File[$base_dir],
+  }
+
+  # store the Loggly TLS cert inside $cert_path
+  file { "${_cert_path}/loggly_full.crt":
+    ensure  => 'file',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    source  => "puppet:///modules/${module_name}/loggly_full.crt",
+    require => File[$_cert_path],
+  }
 }
 
-# vi:syntax=puppet:filetype=puppet:ts=4:et:
+# vim: syntax=puppet ft=puppet ts=2 sw=2 nowrap et

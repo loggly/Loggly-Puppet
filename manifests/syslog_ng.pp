@@ -20,7 +20,7 @@
 # This module uses configuration from the base Loggly class to set
 # the certificate path and TLS status.
 #
-# [*cert_dir*]
+# [*cert_path*]
 #   The directory to find the Loggly TLS certs in, as set by the base loggly
 #   class.
 #
@@ -41,12 +41,14 @@
 # Colin Moller <colin@unixarmy.com>
 #
 class loggly::syslog_ng (
-  $customer_token
+  $customer_token,
+  $enable_tls     = $loggly::enable_tls,
+  $cert_path      = $loggly::_cert_path,
 ) inherits loggly {
 
-  # Bring the Loggly certificate directory configuration into the current
-  # Puppet scope so templates have access to it
-  $cert_dir     = $loggly::cert_dir
+  validate_string($customer_token)
+  validate_bool($enable_tls)
+  validate_absolute_path($cert_path)
 
   # Ensure our configuration snippet directory exists before putting
   # configuration snippets there
@@ -78,12 +80,12 @@ class loggly::syslog_ng (
 
       # Packages available from the EPEL repo for syslog-ng on
       # CentOS/Red Hat are not compiled with TLS support by default
-      $enable_tls   = false
+      $_enable_tls   = false
     }
 
     # Respect the default set in the loggly class on other distros
     default: {
-      $enable_tls   = $loggly::enable_tls
+      $_enable_tls   = $enable_tls
     }
   }
 

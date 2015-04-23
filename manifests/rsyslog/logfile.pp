@@ -46,15 +46,13 @@ define loggly::rsyslog::logfile (
   validate_absolute_path($filepath)
   validate_re($severity, $valid_levels, "severity value of ${severity} is not valid")
 
-  if ! $logname {
-    $_t = split($filepath, '/')
-    $logname = $_t[-1]
-  }
+  $_t = split($filepath, '/')
+  $_logname = pick($logname,$_t[-1])
 
-  validate_string($logname)
+  validate_string($_logname)
 
   # This template uses $logname and $filepath
-  file { "/etc/rsyslog.d/${logname}.conf":
+  file { "/etc/rsyslog.d/${_logname}.conf":
     content => template("${module_name}/log.conf.erb"),
     notify  => Exec['restart_rsyslogd'],
   }

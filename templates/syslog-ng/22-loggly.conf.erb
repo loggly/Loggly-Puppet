@@ -8,7 +8,7 @@ template LogglyFormat {
 };
 
 destination d_loggly {
-<% if @enable_tls -%>
+<% if @_enable_tls -%>
     # TLS-enabled log sink
     tcp("logs-01.loggly.com" port(6514) tls(peer-verify(required-untrusted) ca_dir('<%= @cert_path -%>')) template(LogglyFormat) flush_timeout(1000) frac_digits(3));
 <% else -%>
