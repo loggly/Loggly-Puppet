@@ -33,19 +33,20 @@
 # === Authors
 #
 # Colin Moller <colin@unixarmy.com>
-# Adam Crews <adam.crews@gmail.com>
 #
 class loggly::rsyslog (
   $customer_token,
+  $cert_path       = $loggly::_cert_path,
+  $enable_tls      = $loggly::enable_tls,
 ) inherits loggly {
 
-  # Bring the TLS and certificate directory configuration into the current
-  # Puppet scope so that templates have access to it
-  $enable_tls = $loggly::enable_tls
-  $cert_path = $loggly::cert_path
+  validate_string($customer_token)
+  validate_absolute_path($cert_path)
+  validate_bool($enable_tls)
 
   # Emit a configuration snippet that submits events to Loggly by default
   file { '/etc/rsyslog.d/22-loggly.conf':
+    ensure  => 'file',
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
@@ -78,4 +79,4 @@ class loggly::rsyslog (
   }
 }
 
-# vi:syntax=puppet:filetype=puppet:ts=2:sw=2:et:
+# vim: syntax=puppet ft=puppet ts=2 sw=2 nowrap et

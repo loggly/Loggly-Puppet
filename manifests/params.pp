@@ -10,14 +10,19 @@
 #
 
 class loggly::params {
-    # base directory for loggly support files
-    $base_dir = '/usr/local/loggly'
+  case $operatingsystem {
+    'RedHat', 'Ubuntu', 'Fedora', 'CentOS', 'Debian': {
+      # base directory for loggly support files
+      $base_dir = '/usr/local/loggly'
 
-    # directory that shared TLS certificates will be stored in
-    $cert_path = "${base_dir}/certs"
+      # TLS support is enabled by default to prevent sniffing of logs
+      $enable_tls = true
+    }
 
-    # TLS support is enabled by default to prevent sniffing of logs
-    $enable_tls = true
+    default: {
+      fail("$operatingsystem not supported")
+    }
+  }
 }
 
-# vi:syntax=puppet:filetype=puppet:ts=4:et:
+# vim: syntax=puppet ft=puppet ts=2 sw=2 nowrap et
