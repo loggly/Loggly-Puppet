@@ -24,6 +24,9 @@
 # [*enable_tls*]
 #   Enables or disables TLS encryption for shipped events.
 #
+#[*custom_tag*]
+#   Custom tag so you can filter Loggly for it i.e. test, sandbox etc...
+#
 # === Examples
 #
 #  class { 'loggly::rsyslog':
@@ -38,6 +41,7 @@ class loggly::rsyslog (
   $customer_token,
   $cert_path       = $loggly::_cert_path,
   $enable_tls      = $loggly::enable_tls,
+  $custom_tag      = undef,
 ) inherits loggly {
 
   validate_string($customer_token)

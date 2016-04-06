@@ -30,6 +30,9 @@
 #   Enabled on all distros except CentOS and Red Hat Enterprise Linux as the
 #   packages for those distros are not compiled with TLS support by default.
 #
+# [*custom_tag*]
+#   Custom tag so you can filter Loggly for it i.e. test, sandbox etc...
+#
 # === Examples
 #
 #  class { 'loggly::syslog_ng':
@@ -44,6 +47,7 @@ class loggly::syslog_ng (
   $customer_token,
   $enable_tls     = $loggly::enable_tls,
   $cert_path      = $loggly::_cert_path,
+  $custom_tag      = undef,
 ) inherits loggly {
 
   validate_string($customer_token)
