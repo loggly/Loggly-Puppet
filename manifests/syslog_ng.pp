@@ -72,10 +72,12 @@ class loggly::syslog_ng (
       # include a configuration snippet directory, so we ensure it is 
       # present
       file_line { 'snippet_dir':
-        ensure => present,
-        path   => '/etc/syslog-ng/syslog-ng.conf',
-        line   => '@include "/etc/syslog-ng/conf.d/"',
-        before => File['/etc/syslog-ng/conf.d/22-loggly.conf'],
+        ensure  => present,
+        path    => '/etc/syslog-ng/syslog-ng.conf',
+        line    => '@include "/etc/syslog-ng/conf.d/"',
+        replace => false,
+        match   => '^@include "/etc/syslog-ng/conf.d.*$',
+        before  => File['/etc/syslog-ng/conf.d/22-loggly.conf'],
       }
 
       # Packages available from the EPEL repo for syslog-ng on
