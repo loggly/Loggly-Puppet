@@ -4,7 +4,7 @@
 ### TLS RsyslogTemplate for Loggly
 ##########################################################
 
-$template LogglyFormat,"<%%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% [<%= @customer_token -%>@41058 tag=\"Rsyslog TLS\"] %msg%"
+$template LogglyFormat,"<%%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% [<%= @customer_token -%>@41058 <% @tags.each do |value| -%>tag=\"<%=value%>\" <% end -%>] %msg%"
 
 #RsyslogGnuTLS
 
@@ -22,7 +22,7 @@ $ActionSendStreamDriverPermittedPeer *.loggly.com
 ### TLS RsyslogTemplate for Loggly
 ##########################################################
 
-$template LogglyFormat,"<%%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% [<%= @customer_token -%>@41058] %msg%\n"
+$template LogglyFormat,"<%%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% [<%= @customer_token -%>@41058 <% @tags.each do |value| -%>tag=\"<%=value%>\" <% end -%>] %msg%\n"
 
 *.* @@logs-01.loggly.com:514; LogglyFormat
 <% end -%>
