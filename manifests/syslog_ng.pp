@@ -69,7 +69,7 @@ class loggly::syslog_ng (
   case $::operatingsystem {
     centos, redhat: {
       # On CentOS/Red Hat, the default syslog-ng configuration does not
-      # include a configuration snippet directory, so we ensure it is 
+      # include a configuration snippet directory, so we ensure it is
       # present
       file_line { 'snippet_dir':
         ensure => present,
@@ -90,7 +90,7 @@ class loggly::syslog_ng (
   }
 
   # Emit a configuration snippet that submits events to Loggly by default
-  # This template uses $enable_tls, $customer_token, and $cert_path 
+  # This template uses $enable_tls, $customer_token, and $cert_path
   file { '/etc/syslog-ng/conf.d/22-loggly.conf':
     owner   => 'root',
     group   => 'root',
@@ -101,7 +101,7 @@ class loggly::syslog_ng (
   }
 
   # Call an exec to restart the syslog service instead of using a puppet
-  # managed service to avoid external dependencies or conflicts with 
+  # managed service to avoid external dependencies or conflicts with
   # modules that may already manage the syslog daemon.
   #
   # Note that this will only be called on configuration changes due to the
@@ -110,6 +110,7 @@ class loggly::syslog_ng (
     command     => 'service syslog-ng restart',
     path        => [ '/usr/sbin', '/sbin', '/usr/bin/', '/bin', ],
     refreshonly => true,
+    subscribe   => File["${loggly::_cert_path}/loggly_full.crt"]
   }
 }
 

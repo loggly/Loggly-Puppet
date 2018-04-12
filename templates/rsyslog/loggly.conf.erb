@@ -1,0 +1,36 @@
+# This file is managed by Puppet and local changes
+# may be overwritten
+
+<% if @enable_tls -%>
+##########################################################
+### TLS RsyslogTemplate for Loggly
+##########################################################
+<% else -%>
+##########################################################
+### RsyslogTemplate for Loggly
+##########################################################
+<% end -%>
+
+template(name="LogglyFormat" type="string" string="<%%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %<%= @appname_string -%>% %procid% %msgid% [<%= @customer_token -%>@41058 tag=\"RsyslogTLS\"] %msg%\n")
+
+$ActionQueueFileName <%= @action_queue_file_name %>
+$ActionQueueMaxDiskSpace <%= @action_queue_max_disk_space %>
+$ActionQueueSaveOnShutdown <%= @action_queue_save_on_shutdown %>
+$ActionQueueType <%= @action_queue_type %>
+$ActionResumeRetryCount <%= @action_resume_retry_count %>
+
+<% if @enable_tls -%>
+#RsyslogGnuTLS
+
+$DefaultNetstreamDriverCAFile <%= @cert_path -%>/loggly_full.crt
+$ActionSendStreamDriver gtls
+$ActionSendStreamDriverMode 1
+$ActionSendStreamDriverAuthMode x509/name
+$ActionSendStreamDriverPermittedPeer *.loggly.com
+
+action (type="omfwd" protocol="tcp" target="logs-01.loggly.com" port="6514" template="LogglyFormat")
+<% else -%>
+action (type="omfwd" protocol="tcp" target="logs-01.loggly.com" port="514" template="LogglyFormat")
+<% end -%>
+
+#################END CONFIG FILE#########################

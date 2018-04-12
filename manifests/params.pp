@@ -10,6 +10,13 @@
 #
 
 class loggly::params {
+  $rsyslog_action_queue_file_name        = "fwdLoggly"
+  $rsyslog_action_queue_max_disk_space   = "1g"
+  $rsyslog_action_queue_save_on_shutdown = "on"
+  $rsyslog_action_queue_type             = "LinkedList"
+  $rsyslog_action_resume_retry_count     = "-1"
+  $rsyslog_appname_string                = "app-name"
+
   case $operatingsystem {
     'RedHat', 'Ubuntu', 'Fedora', 'CentOS', 'Debian': {
       # base directory for loggly support files

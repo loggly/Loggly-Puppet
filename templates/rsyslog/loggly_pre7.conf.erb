@@ -1,10 +1,13 @@
+# This file is managed by Puppet and local changes
+# may be overwritten
+
 <% if @enable_tls -%>
 
 ##########################################################
 ### TLS RsyslogTemplate for Loggly
 ##########################################################
 
-$template LogglyFormat,"<%%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% [<%= @customer_token -%>@41058 tag=\"Rsyslog TLS\"] %msg%"
+$template LogglyFormat,"<%%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %<%= @appname_string -%>% %procid% %msgid% [<%= @customer_token -%>@41058 tag=\"Rsyslog TLS\"] %msg%"
 
 #RsyslogGnuTLS
 
@@ -22,7 +25,7 @@ $ActionSendStreamDriverPermittedPeer *.loggly.com
 ### TLS RsyslogTemplate for Loggly
 ##########################################################
 
-$template LogglyFormat,"<%%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% [<%= @customer_token -%>@41058] %msg%\n"
+$template LogglyFormat,"<%%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %<%= @appname_string -%>% %procid% %msgid% [<%= @customer_token -%>@41058] %msg%\n"
 
 *.* @@logs-01.loggly.com:514; LogglyFormat
 <% end -%>

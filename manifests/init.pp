@@ -18,7 +18,7 @@
 #   Enables or disables TLS encryption for shipped log events.
 #
 # [*cert_path*]
-#   Directory to store the Loggly TLS certs in.  Normally this would be 
+#   Directory to store the Loggly TLS certs in.  Normally this would be
 #   relative to $base_dir.
 #
 # === Authors
