@@ -23,6 +23,8 @@ class loggly::params {
       fail("$operatingsystem not supported")
     }
   }
+
+  $tags = []
 }
 
 # vim: syntax=puppet ft=puppet ts=2 sw=2 nowrap et

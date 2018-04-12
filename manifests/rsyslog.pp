@@ -38,11 +38,13 @@ class loggly::rsyslog (
   $customer_token,
   $cert_path       = $loggly::_cert_path,
   $enable_tls      = $loggly::enable_tls,
+  $tags            = $loggly::tags,
 ) inherits loggly {
 
   validate_string($customer_token)
   validate_absolute_path($cert_path)
   validate_bool($enable_tls)
+  validate_array($tags)
 
   # Emit a configuration snippet that submits events to Loggly by default
   file { '/etc/rsyslog.d/22-loggly.conf':

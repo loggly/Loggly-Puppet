@@ -160,6 +160,23 @@ node 'my_server_node.example.net' {
 ```
 TLS enabled by default in the Loggly rsyslog module, so data sent from your systems to Loggly is encrypted and safe from unwanted eavesdropping.
 
+Optionally you can also add tags to your setup using the tags argument:
+For example:
+```puppet
+node 'my_server_node.example.net' {
+    # Send syslog events to Loggly
+    class { 'loggly::rsyslog':
+        customer_token => 'de7b5ccd-04de-4dc4-fbc9-501393600000',
+        tags           => [
+            'application-server',
+            'production',
+            'ny2',
+        ]
+    }
+}
+```
+
+
 #### If you use the syslog-ng daemon
 syslog-ng is not installed by default on Red Hat-style distributions, so ensure that the syslog-ng package is installed (a perfect job for Puppet!) before including the Loggly syslog-ng module.  You will need your Customer Token you obtained from the Finding your Customer Token section of this guide.
 
