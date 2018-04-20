@@ -354,7 +354,7 @@ DEPENDENCIES
   beaker-rspec
   guard-rake
   metadata-json-lint
-  puppet (~> 3.7.0)
+  puppet (~> 3.7.5)
   puppet-blacksmith
   puppetlabs_spec_helper
   rake
@@ -364,3 +364,6 @@ DEPENDENCIES
   travis
   travis-lint
   vagrant-wrapper
+
+BUNDLED WITH
+   1.12.5
