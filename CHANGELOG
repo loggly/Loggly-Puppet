@@ -1,3 +1,6 @@
-YYYY-MM-DD Release 0.1.0
-- something you did
-- something else you did
+#YYYY-MM-DD Release 0.1.0
+#- something you did
+#- something else you did
+
+2016-04-06 Release 1.0.5 Michal Taratuta
+- add custom tag field for rsyslog and syslog-ng templates
