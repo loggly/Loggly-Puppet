@@ -4,7 +4,7 @@
 ### TLS RsyslogTemplate for Loggly
 ##########################################################
 
-$template LogglyFormat,"<%%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% [<%= @customer_token -%>@41058 tag=\"Rsyslog TLS\"] %msg%"
+$template LogglyFormat,"<%%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% [<%= @customer_token -%>@41058 tag=\"RsyslogTLS\"] %msg%"
 
 #RsyslogGnuTLS
 
